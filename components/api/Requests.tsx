@@ -7,7 +7,7 @@ const headers = {
     "x-apisports-key": "a3a80245cddcf074947be5c6ac43484f" // in ".env.local" auslagern -- funktioniert nicht
 }
 
-export async function getTeamsVenuesAsProps(league: number, season: number) { 
+export async function getTeamsVenuesAsProps(league: string, season: string) { 
   const teamsDirectory = path.join(process.cwd(), "public/JsonFiles/TeamsVenues");
   const fileNames = await fs.readdir(teamsDirectory);
 

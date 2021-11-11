@@ -1,4 +1,4 @@
-import { getSquadAsProps } from "../../../components/api/Requests";
+import { getSquad } from "../../../components/api/Requests";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@mui/material";
@@ -10,8 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const Squad = ({squad}: any) => {
-  console.log(squad);
+const Squad = ({ squadArray }: any) => {
+  console.log(squadArray);
 
   return (
     <div>
@@ -28,9 +28,9 @@ const Squad = ({squad}: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {squad.squad.map((s: any) => s.map((s: any) => (
+            {squadArray && squadArray.map((squad: any) => JSON.parse(squad).response.map((s: any) => (
               <TableRow
-              key={s.player.id}
+                key={s.player.id}
               >
                 <TableCell>
                   <Image src={s.player.photo} width="50" height="50"/>
@@ -60,11 +60,11 @@ export async function getServerSideProps(context: any) {
   const season = context.params.id.split("-")[1];
   const team = context.params.id.split("-")[2];
 
-  const squad = await getSquadAsProps(league, season, team);
+  const squadArray = await getSquad(league, season, team);
 
   return {
     props: {
-      squad
+      squadArray
     }
   }
 }

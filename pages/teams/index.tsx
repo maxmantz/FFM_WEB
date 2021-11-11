@@ -1,11 +1,12 @@
 import { Button, Box, Grid, InputLabel, MenuItem, Select, FormControl } from "@mui/material";
 import { useState } from "react";
-import { getTeamsVenuesAsProps } from "../../components/api/Requests";
-import TeamsList from "../../components/TeamsList";
+import { getTeamsVenues } from "../../components/api/Requests";
+import TeamsList from "../../components/teams/TeamsList";
 
-const Teams = ({teamsVenues}: any) => {
+const Teams = () => {
     const [ league, setLeague ] = useState("");
     const [ season, setSeason ] = useState("");
+    const [ teamsVenues, setTeamsVenues ] = useState(null);
 
     const handleSetLeague = (event: any) => {
         setLeague(event.target.value);
@@ -17,12 +18,11 @@ const Teams = ({teamsVenues}: any) => {
 
     async function handleShowTeams(){
         if (league != "" && season != ""){
-            teamsVenues = getTeamsVenuesAsProps(league, season);
+            getTeamsVenues(league, season).then(result => {
+                setTeamsVenues(result);
+              });
         }
     }
-
-    console.log(league);
-    console.log(season);
 
     return (
         <div>
@@ -73,7 +73,7 @@ const Teams = ({teamsVenues}: any) => {
                 </Grid>
             </Grid>
             {teamsVenues && (
-                <TeamsList teamsVenues={teamsVenues}/>
+                <TeamsList teamsVenues={teamsVenues} league={league} season={season}/>
             )}
         </div>
     )
@@ -82,9 +82,9 @@ const Teams = ({teamsVenues}: any) => {
 export default Teams;
 
 // alle Props functions funktionieren nur auf pages !!!!!!
-export async function getStaticProps() {
-    return getTeamsVenuesAsProps("78", "2020");
-}
+// export async function getStaticProps() {
+//     return getTeamsVenuesAsProps("78", "2020");
+// }
 
 // teamsVenues aufspliten, eventuell später hilfreich
 /*

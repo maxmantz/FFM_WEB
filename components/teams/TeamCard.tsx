@@ -7,10 +7,7 @@ import Paper from "@mui/material/Paper";
 import CardActions from "@mui/material/CardActions";
 import { Button } from "@mui/material";
 
-export default function TeamCard({team}: any){
-    const league = 78;
-    const season = 2020;
-
+export default function TeamCard({ team, league, season }: any ){
     return (
         <Paper 
             elevation={12}

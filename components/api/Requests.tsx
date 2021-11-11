@@ -1,48 +1,35 @@
-import { promises as fs } from "fs"
-import path from "path";
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0"; // ignoriert "self-signed-certificate" error
+const baseUrl = "https://localhost:44327/api/";
 
-const baseUrl = "https://v3.football.api-sports.io/";
+export async function getTeamsVenues(league: string, season: string) { 
+  const response = await fetch(`${baseUrl}teams?league=${league}&season=${season}`);
 
-const headers = {
-    "x-apisports-key": "a3a80245cddcf074947be5c6ac43484f" // in ".env.local" auslagern -- funktioniert nicht
+  const data = await response.json()
+
+  return data;
 }
 
-export async function getTeamsVenuesAsProps(league: string, season: string) { 
-  const teamsDirectory = path.join(process.cwd(), "public/JsonFiles/TeamsVenues");
-  const fileNames = await fs.readdir(teamsDirectory);
+export async function getSquad(league: string, season: string, team: string) {
+  let squadArray: any = [];
 
-  const teamsVenues = fileNames.filter(file => file.includes(`L${league}`)).filter(file => file.includes(`S${season}`)).map(async (fileName) => {
-    const filePath = path.join(teamsDirectory, fileName);
-    const fileContents = await fs.readFile(filePath, "utf8");
+  let response = await fetch(`${baseUrl}players?league=${league}&season=${season}&team=${team}&page=1`);
 
-    const data = JSON.parse(fileContents);
+  let data = await response.json();
 
-    return data.response;
-  });
+  squadArray.push(data);
 
-  return {
-    props: {
-      teamsVenues: await Promise.all(teamsVenues)
-    }
+  const pageTotal = JSON.parse(data).paging.total;
+
+  for (let page = 2; page <= pageTotal; page++){
+    response = await fetch(`${baseUrl}players?league=${league}&season=${season}&team=${team}&page=${page}`);
+
+    data = await response.json();
+
+    squadArray.push(data);
   }
-}
 
-export async function getSquadAsProps(league: string, season: string, team: string) {
-    const playersDirectory = path.join(process.cwd(), "public/JsonFiles/Players");
-    const fileNames = await fs.readdir(playersDirectory);
+  console.log(squadArray)
 
-    const squad = fileNames.filter(file => file.includes(`S${season}`)).filter(file => file.includes(`T${team}`)).map(async (fileName) => {
-        const filePath = path.join(playersDirectory, fileName);
-        const fileContents = await fs.readFile(filePath, "utf8");
-
-        const data = JSON.parse(fileContents);
-
-        return data.response;
-    });
-
-  return {
-      squad: await Promise.all(squad)
-  }
-  
+  return squadArray;
 }
 

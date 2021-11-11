@@ -5,20 +5,21 @@ import Card from "@mui/material/Card"
 import CardHeader from "@mui/material/CardHeader"
 import CardContent from "@mui/material/CardContent"
 import CardActions from "@mui/material/CardActions"
-import { getSquadAsProps } from "../../../components/api/Requests";
+import { getSquad } from "../../../components/api/Requests";
 import gridStyles from "../../../styles/Grid.module.css"
 
 const Player = ({ squad, player }: any) => {
     let playerData;
 
-    squad.squad.map((s: any) => s.map((p: any) => {
+    console.log(squad)
+    JSON.parse(squad).response.map((p: any) => {
         if (p.player.id == player){
             playerData = p;
         }
-    }))
-
+    })
+    
     if (playerData == undefined){
-        playerData = squad.squad[0][0].player;
+        playerData = JSON.parse(squad).response[0].player;
     }
     
     return (
@@ -101,7 +102,7 @@ export async function getServerSideProps(context: any) {
     const team = params[2];
     const player = params[3];
 
-    const squad = await getSquadAsProps(league, season, team);
+    const squad = await getSquad(league, season, team);
 
     return {
         props: {

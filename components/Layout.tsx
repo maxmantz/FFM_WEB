@@ -5,7 +5,7 @@ import Container from "@mui/material/Container"
 import SideBar from "./SideBar"
 import { drawerWidth } from './SideBar';
 
-export default function Layout({user, children}: any) {
+export default function Layout({ children }: any) {
     return (
         <div>
             <Head>

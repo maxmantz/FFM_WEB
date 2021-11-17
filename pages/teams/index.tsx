@@ -1,5 +1,5 @@
 import { Button, Box, Grid, InputLabel, MenuItem, Select, FormControl } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getTeamsVenues } from "../../components/api/Requests";
 import TeamsList from "../../components/teams/TeamsList";
 
@@ -16,21 +16,36 @@ const Teams = () => {
         setSeason(event.target.value);
     }
 
-    async function handleShowTeams(){
+    // Variante mit Button
+    // async function handleShowTeams(){
+    //     if (league != "" && season != ""){
+    //         getTeamsVenues(league, season).then(result => {
+    //             setTeamsVenues(result);
+    //           });
+    //     }
+    // }
+
+    // mit useEffect()
+    useEffect(() => {
         if (league != "" && season != ""){
-            getTeamsVenues(league, season).then(result => {
-                setTeamsVenues(result);
-              });
+            getTeamsVenues(league, season).then(result => { setTeamsVenues(result); });
         }
-    }
+
+        return  setTeamsVenues(null);
+    }, [ league, season ]);
 
     return (
         <div>
             <Grid container
                 spacing={5}
             >
-                <Grid item>
-                    <Box sx={{ minWidth: 150 }}>
+                <Grid item
+                    xs={12} sm={6} md={6}
+                    sx={{
+                        justifyItems: "center"
+                    }}
+                >
+                    <Box>
                         <FormControl fullWidth>
                             <InputLabel id="league-select-label">League</InputLabel>
                             <Select
@@ -40,15 +55,17 @@ const Teams = () => {
                                 label="League"
                                 onChange={handleSetLeague}
                             >
-                                <MenuItem value={"78"}>1.Bundesliga</MenuItem>
-                                <MenuItem value={"61"}>Ligue 1</MenuItem>
-                                <MenuItem value={"39"}>Premier League</MenuItem>
+                                <MenuItem value="78">1.Bundesliga</MenuItem>
+                                <MenuItem value="61">Ligue 1</MenuItem>
+                                <MenuItem value="39">Premier League</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
                 </Grid>
-                <Grid item> 
-                    <Box sx={{ minWidth: 150 }}>
+                <Grid item
+                    xs={12} sm={6} md={6}
+                > 
+                    <Box>
                         <FormControl fullWidth>
                             <InputLabel id="season-select-label">Season</InputLabel>
                             <Select
@@ -65,11 +82,11 @@ const Teams = () => {
                     </Box>       
                 </Grid>
                 <Grid item>
-                    <Button
+                    {/* <Button
                         onClick={handleShowTeams}
                     >
                         Show Teams
-                    </Button>
+                    </Button> */}
                 </Grid>
             </Grid>
             {teamsVenues && (
@@ -85,9 +102,3 @@ export default Teams;
 // export async function getStaticProps() {
 //     return getTeamsVenuesAsProps("78", "2020");
 // }
-
-// teamsVenues aufspliten, eventuell später hilfreich
-/*
-    const teams = teamsVenues[0].map((tv: any) => tv.team);
-    const venues = teamsVenues[0].map((tv: any) => tv.venue);
-*/

@@ -1,9 +1,8 @@
-import { Drawer, Box, Link, Divider, List, ListItem, ListItemIcon, ListItemText } from "@mui/material"
+import { Drawer, Box, Link, List, ListItem, ListItemText } from "@mui/material"
 import Logo from "./Logo";
-import { navBarHeight } from "./NavBar";
 
 export const drawerWidth = 170;
-const options = [{ name: "Teams", route: "/teams"}, { name: "Option 2", route: "/teams"}, { name: "Option 3", route: "/teams"}];
+const options = [{ name: "Teams", route: "/teams"}, { name: "Pick a Team", route: "/teamSelection"}, { name: "Option 3", route: "/teams"}];
 
 export default function SideBar() {
     return (
@@ -23,9 +22,8 @@ export default function SideBar() {
                 variant="permanent"
                 anchor="left"
             >
+                <Logo/>
                 <List>
-                    <Logo/>
-                    <Divider/>
                     {options.map(o => (
                         <ListItem 
                             button

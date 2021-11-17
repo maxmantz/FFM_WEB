@@ -13,7 +13,7 @@ export default function TeamsList({ teamsVenues, league, season }: any ) {
                         xs={12} sm={6} md={4}
                         key={tv.id}
                     >
-                        <TeamCard team={tv.team} league={league} season={season}></TeamCard>
+                        <TeamCard team={tv.team} venue={tv.venue} league={league} season={season}></TeamCard>
                     </Grid> 
                 ))}
             </Grid>

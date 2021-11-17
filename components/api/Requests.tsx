@@ -28,8 +28,6 @@ export async function getSquad(league: string, season: string, team: string) {
     squadArray.push(data);
   }
 
-  console.log(squadArray)
-
   return squadArray;
 }
 

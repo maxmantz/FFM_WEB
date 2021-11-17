@@ -12,6 +12,7 @@
     "@auth0/nextjs-auth0": "^1.6.1",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.0.4",
     "json-loader": "^0.5.7",
     "next": "11.1.2",

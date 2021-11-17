@@ -8,7 +8,7 @@ import type { AppProps } from 'next/app'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
-      <Layout >
+      <Layout>
         <Component {...pageProps} />
       </Layout>
     </UserProvider>

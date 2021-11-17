@@ -12,11 +12,11 @@ const Player = ({ squad, player }: any) => {
     let playerData;
 
     console.log(squad)
-    JSON.parse(squad).response.map((p: any) => {
+    squad.map((s: any) => JSON.parse(s).response.map((p: any) => {
         if (p.player.id == player){
             playerData = p;
         }
-    })
+    }));
     
     if (playerData == undefined){
         playerData = JSON.parse(squad).response[0].player;
